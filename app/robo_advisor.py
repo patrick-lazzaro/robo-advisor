@@ -21,7 +21,7 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
-# define hasNumbers function
+# Define hasNumbers function
 
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
@@ -29,7 +29,6 @@ def hasNumbers(inputString):
 #
 # INFO INPUTS
 #
-
 
 # Ask user for stock symbol
 # Validate user input 
@@ -42,8 +41,6 @@ while True:
     else:
         break
 
-
-
 # API KEY
 
 dotenv.load_dotenv()
@@ -53,8 +50,9 @@ request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&sym
 
 response = requests.get(request_url)
 
-#if "str" in response.text:
-#    print("Error")
+if "Error Message" in response.text:
+    #print("Error")
+    exit()
 
 parsed_response = json.loads(response.text)
 
@@ -85,9 +83,6 @@ recent_low = min(low_prices)
 #
 # INFO OUTPUTS
 #
-
-
-#csv_file_path = "data/prices.csv" # a relative filepath
 
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
 
@@ -126,29 +121,34 @@ print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
 
-# Recommendation
+# Recommendation and Reasoning Formula
 
-if (float(latest_close) >= (recent_high * .80)): 
+if (float(latest_close) >= (recent_high * .90)): 
     recommendation = "STRONG BUY!"
-elif (float(latest_close) >= (recent_high * .60)) & (float(latest_close) < (recent_high * .80)):
+    reason = "The stock is within 10% of its recent high, get it while it's still doing performing very strong"
+elif (float(latest_close) >= (recent_high * .80)) & (float(latest_close) < (recent_high * .90)):
     recommendation = "BUY!"
-elif (float(latest_close) >= (recent_high * .40)) & (float(latest_close) < (recent_high * .60)):
+    reason = "The stock is between 10%-20% of its recent high, it is doing well and is a good buy"
+elif (float(latest_close) >= (recent_high * .65)) & (float(latest_close) < (recent_high * .80)):
     recommendation = "HOLD!"
-elif (float(latest_close) >= (recent_high * .20)) & (float(latest_close) < (recent_high * .40)):
+    reason = "The stock is between 20%-35% of its recent high, I would hold any investment for now and look for movements in the price"
+elif (float(latest_close) >= (recent_high * .50)) & (float(latest_close) < (recent_high * .65)):
     recommendation = "SELL!"
+    reason = "The stock is between 35%-50% of its recent high, I would sell this declining stock at this point and watch to see if it increases soon"
 else:
     recommendation = "STRONG SELL!"
+    reason = "The stock is below 50% of its recent high, you do not want this plummeting stock in your portfolio right now"
 
 print(f"RECOMMENDATION: {recommendation}")
-print("RECOMMENDATION REASON: TODO")
+print(f"RECOMMENDATION REASON: {reason}")
 print("-------------------------")
 
-# CSV 
+# CSV Message
 
 print(f"WRITING DATA TO CSV: {csv_file_path}...")
 print("-------------------------")
 
-#
+# Exit Message
 
 print("HAPPY INVESTING!")
 print("-------------------------")
