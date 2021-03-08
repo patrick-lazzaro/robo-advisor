@@ -4,6 +4,7 @@ import csv
 import json
 import os
 
+import dotenv
 import requests
 
 # to_usd function below replicated from shopping cart project
@@ -25,17 +26,20 @@ def to_usd(my_price):
 # INFO INPUTS
 #
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo"
+symbol = "IBM" #TODO: accept user input
+
+# API KEY
+
+dotenv.load_dotenv()
+api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="demo") 
+
+request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
 response = requests.get(request_url)
-# print(type(response)) #> <class 'requests.models.Response'>
-# print(response.status_code) #> 200
-# print(response.text)
 
 parsed_response = json.loads(response.text)
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-
 
 tsd = parsed_response["Time Series (Daily)"]
 
@@ -111,6 +115,7 @@ print("-------------------------")
 # CSV 
 
 print(f"WRITING DATA TO CSV: {csv_file_path}...")
+print("-------------------------")
 
 #
 
