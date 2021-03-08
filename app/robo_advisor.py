@@ -7,7 +7,7 @@ import os
 import dotenv
 import requests
 
-# to_usd function below replicated from shopping cart project
+# to_usd function replicated from shopping cart project
 
 def to_usd(my_price):
     """
@@ -21,12 +21,28 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
+# define hasNumbers function
+
+def hasNumbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
 #
 # INFO INPUTS
 #
 
-symbol = "IBM" #TODO: accept user input
+
+# Ask user for stock symbol
+# Validate user input 
+
+while True:
+    symbol = input("WELCOME! PLEASE CHOOSE A STOCK TICKER (EX: IBM) ")
+
+    if (hasNumbers(symbol) == True) or (len(symbol) < 1) or (len(symbol) > 5):
+        print("Oh, expecting a properly-formed stock ticker like 'MSFT'. Please try again.")
+    else:
+        break
+
+
 
 # API KEY
 
@@ -36,6 +52,9 @@ api_key = os.getenv("ALPHAVANTAGE_API_KEY", default="demo")
 request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
 
 response = requests.get(request_url)
+
+#if "str" in response.text:
+#    print("Error")
 
 parsed_response = json.loads(response.text)
 
@@ -90,7 +109,7 @@ with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writin
         })
 
 print("-------------------------")
-print("SELECTED SYMBOL: XYZ")
+print(f"SELECTED SYMBOL: {symbol}")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
 
@@ -100,15 +119,27 @@ import datetime
 now = datetime.datetime.now()
 print("REQUEST AT: " + str(now.strftime("%Y-%m-%d %I:%M %p")))
 
-#
-
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print(f"LATEST CLOSE: {to_usd(float(latest_close))}")
 print(f"RECENT HIGH: {to_usd(float(recent_high))}")
 print(f"RECENT LOW: {to_usd(float(recent_low))}")
 print("-------------------------")
-print("RECOMMENDATION: BUY!")
+
+# Recommendation
+
+if (float(latest_close) >= (recent_high * .80)): 
+    recommendation = "STRONG BUY!"
+elif (float(latest_close) >= (recent_high * .60)) & (float(latest_close) < (recent_high * .80)):
+    recommendation = "BUY!"
+elif (float(latest_close) >= (recent_high * .40)) & (float(latest_close) < (recent_high * .60)):
+    recommendation = "HOLD!"
+elif (float(latest_close) >= (recent_high * .20)) & (float(latest_close) < (recent_high * .40)):
+    recommendation = "SELL!"
+else:
+    recommendation = "STRONG SELL!"
+
+print(f"RECOMMENDATION: {recommendation}")
 print("RECOMMENDATION REASON: TODO")
 print("-------------------------")
 
