@@ -28,7 +28,15 @@ print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...")
-print("REQUEST AT: 2018-02-20 02:00pm")
+
+# Date and Time
+
+import datetime
+now = datetime.datetime.now()
+print("REQUEST AT: " + str(now.strftime("%Y-%m-%d %I:%M %p")))
+
+#
+
 print("-------------------------")
 print(f"LATEST DAY: {last_refreshed}")
 print("LATEST CLOSE: $100,000.00")
