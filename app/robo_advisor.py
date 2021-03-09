@@ -141,19 +141,19 @@ print("-------------------------")
 
 if (float(latest_close) >= (recent_high * .90)): 
     recommendation = "STRONG BUY!"
-    reason = "The stock is within 10% of its recent high, get it while it's still performing very strong"
+    reason = "The stock is within 10% of its recent high, get it while it's still performing very strong."
 elif (float(latest_close) >= (recent_high * .80)) & (float(latest_close) < (recent_high * .90)):
     recommendation = "BUY!"
-    reason = "The stock is within 10%-20% of its recent high, it is doing well and is a good buy"
+    reason = "The stock is within 10%-20% of its recent high, it is doing well and is a good buy."
 elif (float(latest_close) >= (recent_high * .65)) & (float(latest_close) < (recent_high * .80)):
     recommendation = "HOLD!"
-    reason = "The stock is within 20%-35% of its recent high, I would hold any investment for now and watch for movements in the price"
+    reason = "The stock is within 20%-35% of its recent high, I would hold any investment for now and watch for movements in the price."
 elif (float(latest_close) >= (recent_high * .50)) & (float(latest_close) < (recent_high * .65)):
     recommendation = "SELL!"
-    reason = "The stock is within 35%-50% of its recent high, I would sell this declining stock and watch to see if it increases soon"
+    reason = "The stock is within 35%-50% of its recent high, I would sell this declining stock and watch to see if it increases soon."
 else:
     recommendation = "STRONG SELL!"
-    reason = "The stock is below 50% of its recent high, you do not want this heavily declining stock in your portfolio right now"
+    reason = "The stock is below 50% of its recent high, you do not want this heavily declining stock in your portfolio right now."
 
 # Recommendation and reasoning outputs
 
