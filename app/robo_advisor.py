@@ -38,7 +38,7 @@ while True:
     symbol = input("WELCOME! PLEASE CHOOSE A STOCK TICKER (EX: IBM) ")
 
     if (hasNumbers(symbol) == True) or (len(symbol) < 1) or (len(symbol) > 5):
-        print("Oh, expecting a properly-formed stock ticker like 'MSFT'. Please try again.")
+        print("Oh, please choose a valid stock symbol like 'MSFT' and try again.")
     else:
         break
 
@@ -98,7 +98,7 @@ csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.cs
 
 csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
-# Write CSV file using for loop
+# Write CSV file
 
 with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
     writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
@@ -141,7 +141,7 @@ print("-------------------------")
 
 if (float(latest_close) >= (recent_high * .90)): 
     recommendation = "STRONG BUY!"
-    reason = "The stock is within 10% of its recent high, get it while it's still doing performing very strong"
+    reason = "The stock is within 10% of its recent high, get it while it's still performing very strong"
 elif (float(latest_close) >= (recent_high * .80)) & (float(latest_close) < (recent_high * .90)):
     recommendation = "BUY!"
     reason = "The stock is within 10%-20% of its recent high, it is doing well and is a good buy"
